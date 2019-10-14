@@ -1,0 +1,51 @@
+{% block header %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <script src="{% static 'xml/Global.js' %}"></script>
+  <script src="{% static 'xml/XMLWriter.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <script src="{% static 'blockly/blockly_compressed.js' %}"></script>
+  <script src="{% static 'blockly/blocks_compressed.js' %}"></script>
+  <script src="{% static 'blockly/javascript_compressed.js' %}"></script>
+  <script src="{% static 'blockly/msg/js/es.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="{% static 'js/sweetalert.min.js' %}"></script>
+  <script src="{% static 'scripts/main.js' %}"></script>
+  <script src="{% static 'js/acmeblocks.js' %}"></script>
+  <title>ACME</title>
+</head>
+
+<body ng-app="Blocks">
+  {% endblock %}
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="http:127.0.0.1:8000">ACME</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+      aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor01">
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
+  {% block content %}
+  <h1>HOLA AJ</h1>
+  {% endblock %}
+  {% block footer %}
+</body>
+
+</html>
+{% endblock %}
