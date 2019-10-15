@@ -11,7 +11,8 @@
   <script src="{% static 'xml/Global.js' %}"></script>
   <script src="{% static 'xml/XMLWriter.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+  <script src="{% static 'node_modules/angular/angular.min.js' %}"></script>
+  <!--script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script-->
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
   <script src="{% static 'blockly/blockly_compressed.js' %}"></script>
@@ -25,7 +26,7 @@
   <title>ACME</title>
 </head>
 
-<body ng-app="Blocks">
+<body ng-app="Acme">
   {% endblock %}
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <a class="navbar-brand" href="http:127.0.0.1:8000">ACME</a>

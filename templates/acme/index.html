@@ -1,22 +1,18 @@
 {% extends 'base/base.html' %} {% load static from staticfiles %} {% block content %}
-<div ng-controller="BlocksController as bk">
-	<script>
-		var miTexto = '<a id="a"><b id="b">Hey!</b></a>';
-		var codigo = new DOMParser();
-		var oDOM = codigo.parseFromString(miTexto, "text/xml");
-		// Imprimir el nombre del elemento raiz o un mensaje de error
-		dump(oDOM.documentElement.nodeName == "parsererror" ? "error mientras se codificaba" : oDOM.documentElement.nodeName);
-	</script>
-	<xml id="toolbox" style="display: none">
-		<table>
-			<tr ng-repeat="sb in shblock" style="text-align:center">
-				<th>{$sb.name$}</th>
-				<th>{$sb.action$}</th>
-				<th>{$sb.url$}</th>
-				<th>{$sb.response$}</th>
-				<th>{$sb.status_field$}</th>
-			</tr>
-		</table>
+<div ng-controller="AcmeController">
+	<!-- <xml id="toolbox" style="display: none">
+		<block type="current">
+			<value name="name">
+				<block type="text">
+					<field name="TEXT">hola</field>
+				</block>
+			</value>
+			<value name="url">
+				<block type="text">
+					<field name="TEXT">mundo</field>
+				</block>
+			</value>
+		</block>
 		<block type="new_webhook">
 			<field name="name">Nombre</field>
 			<field name="url">URL</field>
@@ -40,7 +36,7 @@
 		<block type="delete">
 			<field name="Delete">Eliminar</field>
 		</block>
-	</xml>
+	</xml> -->
 	<div class="jumbotron">
 		<div class="row">
 			<div class="col-xl-6">
@@ -82,14 +78,57 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		var toolbox = '<xml>';
+		toolbox +=
+			'<block type="22">' +
+			'<value name="name">' +
+			'<block type="text">' +
+			'<field name="TEXT"/>' +
+			'</block>' +
+			'</value>' +
+			'<value name="url">' +
+			'<block type="text">' +
+			'<field name="TEXT"/>' +
+			'</block>' +
+			'</value>' +
+			'</block>';
+
+		toolbox += '</xml>';
+		/* toolbox +=
+			'<block type="new_webhook">' +
+			'<field name="name">Nombre</field>' +
+			'<field name="url">URL</field>' +
+			'<value name="name">' +
+			'<block type="text">' +
+			'<field name="TEXT" />' +
+			'</block>' +
+			'</value>' +
+			'<value name="url">' +
+			'<block type="text">' +
+			'<field name="TEXT" />' +
+			'</block>' +
+			'</value>' +
+			'<next>' +
+			'<block type="create">' +
+			'<field name="Create">Crear</field>' +
+			'</block>' +
+			'</next>' +
+			'</block>' +
+ */
+		/* '<block type="create">' +
+		'<field name="Create">Crear</field>' +
+		'</block>' + */
+
+		/* 			'<block type="update">' +
+					'<field name="Update">Actualizar</field>' +
+					'</block>' +
+
+					'<block type="delete">' +
+					'<field name="Delete">Eliminar</field>' +
+					'</block>'; */
+
+	</script>
 </div>
-<script>
-	var workspace = Blockly.inject('blocklyDiv',
-		{ toolbox: document.getElementById('toolbox') }
-	);
-	function ShowCode(work) {
-		var code = Blockly.JavaScript.workspaceToCode(work);
-		return code;
-	}
-</script>
+
 {% endblock %}

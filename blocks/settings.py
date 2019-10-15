@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'acme.apps.AcmeConfig',
-    'djng',
 ]
 
 MIDDLEWARE = [

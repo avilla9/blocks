@@ -1,6 +1,6 @@
-var blocks = angular.module('Blocks', []);
+var Acme = angular.module('Acme', []);
 
-blocks.config(['$httpProvider', '$interpolateProvider',
+Acme.config(['$httpProvider', '$interpolateProvider',
   function ($httpProvider, $interpolateProvider) {
     /* for compatibility with django teplate engine */
     $interpolateProvider.startSymbol('{$');
@@ -11,7 +11,40 @@ blocks.config(['$httpProvider', '$interpolateProvider',
   }]);
 
 
-blocks.controller('BlocksController', function ($scope, $http) {
+Acme.controller('AcmeController', function ($scope, $http) {
+
+
+  var mainBlockly = function (arg) {
+    arg.forEach(function (element) {
+      Blockly.Blocks[element.id] = {
+        init: function () {
+          this.appendValueInput("name")
+            .setCheck("String")
+            .appendField(element.name);
+          this.appendValueInput("url")
+            .setCheck("String")
+            .appendField(element.url);
+          this.setNextStatement(true, null);
+          this.setColour(230);
+          this.setTooltip("");
+          this.setHelpUrl("");
+        }
+      };
+
+      Blockly.JavaScript[element.id] = function (block) {
+        var value_name = Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC);
+        var value_url = Blockly.JavaScript.valueToCode(block, 'url', Blockly.JavaScript.ORDER_ATOMIC);
+        // TODO: Assemble JavaScript into code variable.
+        var code = '...;\n';
+        return code;
+      };
+    });
+
+
+    Blockly.inject('blocklyDiv', { toolbox: toolbox });
+  }
+
+
   // Consultar los registros de Wenhooks al iniciar la página
   var getBlocks = function () {
     $http({
@@ -22,6 +55,7 @@ blocks.controller('BlocksController', function ($scope, $http) {
 
   // Llevar los registros de webhooks a un modelo para ser tratado en el template
   var showblocks = function (response) {
+    mainBlockly(response.data);
     $scope.shblock = response.data;
   }
 
