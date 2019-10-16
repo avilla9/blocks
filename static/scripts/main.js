@@ -2,17 +2,29 @@ var Acme = angular.module('Acme', []);
 
 Acme.config(['$httpProvider', '$interpolateProvider',
   function ($httpProvider, $interpolateProvider) {
-    /* for compatibility with django teplate engine */
     $interpolateProvider.startSymbol('{$');
     $interpolateProvider.endSymbol('$}');
-    /* csrf */
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
   }]);
 
-
 Acme.controller('AcmeController', function ($scope, $http) {
 
+  // Consultar los registros de Wenhooks al iniciar la página
+  var getBlocks = function () {
+    $http({
+      method: 'GET',
+      url: 'webhooks',
+    }).then(showBlocks);
+  }
+
+  // traer como respuesta registros de webhooks
+  var showBlocks = function (response) {
+    mainBlockly(response.data);
+    toolbox(response.data);
+  }
+
+  getBlocks(); // Muestra los registros en webhooks
 
   var mainBlockly = function (arg) {
     arg.forEach(function (element) {
@@ -20,10 +32,10 @@ Acme.controller('AcmeController', function ($scope, $http) {
         init: function () {
           this.appendValueInput("name")
             .setCheck("String")
-            .appendField(element.name);
+            .appendField("Nombre");
           this.appendValueInput("url")
             .setCheck("String")
-            .appendField(element.url);
+            .appendField("URL");
           this.setNextStatement(true, null);
           this.setColour(230);
           this.setTooltip("");
@@ -34,34 +46,68 @@ Acme.controller('AcmeController', function ($scope, $http) {
       Blockly.JavaScript[element.id] = function (block) {
         var value_name = Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC);
         var value_url = Blockly.JavaScript.valueToCode(block, 'url', Blockly.JavaScript.ORDER_ATOMIC);
-        // TODO: Assemble JavaScript into code variable.
-        var code = '...;\n';
+        var code = value_name + " " + value_url + " ";
         return code;
       };
     });
-
-
-    Blockly.inject('blocklyDiv', { toolbox: toolbox });
   }
 
+  var toolbox = function (arg) {
+    var box =
+      '<xml>' +
+      '<block type="new_webhook">' +
+      '<field name="name">Nombre</field>' +
+      '<field name="url">URL</field>' +
+      '<value name="name">' +
+      '<block type="text">' +
+      '<field name="TEXT" />' +
+      '</block>' +
+      '</value>' +
+      '<value name="url">' +
+      '<block type="text">' +
+      '<field name="TEXT" />' +
+      '</block>' +
+      '</value>' +
+      '<next>' +
+      '<block type="create">' +
+      '<field name="Create">Crear</field>' +
+      '</block>' +
+      '</next>' +
+      '</block>';
 
-  // Consultar los registros de Wenhooks al iniciar la página
-  var getBlocks = function () {
-    $http({
-      method: 'GET',
-      url: 'webhooks',
-    }).then(showblocks, errorCallBack);
-  }
+    box += '<block type="update">' +
+      '<field name="Update">Actualizar</field>' +
+      '</block>' +
+      '<block type="delete">' +
+      '<field name="Delete">Eliminar</field>' +
+      '</block>';
 
-  // Llevar los registros de webhooks a un modelo para ser tratado en el template
-  var showblocks = function (response) {
-    mainBlockly(response.data);
-    $scope.shblock = response.data;
+    arg.forEach(function (element) {
+      box +=
+        '<block type="' + element.id + '">' +
+        '<value name="name">' +
+        '<block type="text">' +
+        '<field name="TEXT">' +
+        element.name +
+        '</field>' +
+        '</block>' +
+        '</value>' +
+        '<value name="url">' +
+        '<block type="text">' +
+        '<field name="TEXT">' +
+        element.url +
+        '</field>' +
+        '</block>' +
+        '</value>' +
+        '</block>';
+    });
+    box += '</xml>';
+    Blockly.inject('blocklyDiv', { toolbox: box });
   }
 
   // Traer data de los bloques en javascript hacia angularjs
-  $scope.showcode = function (data) {
-    var code = Blockly.JavaScript.workspaceToCode(data);
+  $scope.showcode = function () {
+    var code = Blockly.JavaScript.workspaceToCode();
     var string = code.replace(/['"]+/g, ''),
       separador = " ", // un espacio en blanco
       array = string.split(separador);
@@ -85,12 +131,4 @@ Acme.controller('AcmeController', function ($scope, $http) {
       }).then(getBlocks());
     }
   }
-
-  // Traer errores en la data
-  var errorCallBack = function (reason) {
-    $scope.error = reason.data;
-  }
-
-  // ***** Funciones cargadas al inicar la página *****
-  getBlocks(); // Muestra los registros en webhooks
 });

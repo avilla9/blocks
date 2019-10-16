@@ -1,32 +1,3 @@
-// Repetir current
-
-i = 0;
-while (i <= 3) {
-  Blockly.Blocks['current' + i] = {
-    init: function () {
-      this.appendValueInput("name")
-        .setCheck("String")
-        .appendField("names" + i);
-      this.appendValueInput("url")
-        .setCheck("String")
-        .appendField("url" + i);
-      this.setNextStatement(true, null);
-      this.setColour(230);
-      this.setTooltip("");
-      this.setHelpUrl("");
-    }
-  };
-
-  Blockly.JavaScript['current' + i] = function (block) {
-    var value_name = Blockly.JavaScript.valueToCode(block, 'name', Blockly.JavaScript.ORDER_ATOMIC);
-    var value_url = Blockly.JavaScript.valueToCode(block, 'url', Blockly.JavaScript.ORDER_ATOMIC);
-    // TODO: Assemble JavaScript into code variable.
-    var code = '...;\n';
-    return code;
-  };
-  i++;
-}
-
 // ******* CREATE WEBHOOK START *******
 Blockly.Blocks['new_webhook'] = {
   init: function () {

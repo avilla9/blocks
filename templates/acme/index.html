@@ -1,134 +1,21 @@
 {% extends 'base/base.html' %} {% load static from staticfiles %} {% block content %}
 <div ng-controller="AcmeController">
-	<!-- <xml id="toolbox" style="display: none">
-		<block type="current">
-			<value name="name">
-				<block type="text">
-					<field name="TEXT">hola</field>
-				</block>
-			</value>
-			<value name="url">
-				<block type="text">
-					<field name="TEXT">mundo</field>
-				</block>
-			</value>
-		</block>
-		<block type="new_webhook">
-			<field name="name">Nombre</field>
-			<field name="url">URL</field>
-			<value name="name">
-				<block type="text">
-					<field name="TEXT" />
-				</block>
-			</value>
-			<value name="url">
-				<block type="text">
-					<field name="TEXT" />
-				</block>
-			</value>
-		</block>
-		<block type="create">
-			<field name="Create">Crear</field>
-		</block>
-		<block type="update">
-			<field name="Update">Actualizar</field>
-		</block>
-		<block type="delete">
-			<field name="Delete">Eliminar</field>
-		</block>
-	</xml> -->
 	<div class="jumbotron">
 		<div class="row">
-			<div class="col-xl-6">
+			<div class="col-xl-12">
 				<div id="blocklyDiv" ng-model="workspace" style="height: 400px; width: 100%;"></div>
 				<form id="BlocksArea">
 					<div class="row">
 						<div class="col-xl-12">
 							<center>
-								<!-- onclick="ShowCode()" -->
-								<button type="button" onclick="ShowCode(workspace)" ng-click="showcode(workspace)"
-									class="btn btn-primary">Ver
-									código</button>
+								<button type="button" ng-click="showcode()" class="btn btn-primary">Aceptar</button>
 							</center>
 						</div>
 					</div>
 				</form>
 			</div>
-			<div class="col-xl-6">
-				<table class="table table-hover">
-					<thead>
-						<tr class="table-primary" style="text-align:center">
-							<th>Nombre</th>
-							<td>Acción</td>
-							<td>URL</td>
-							<td>Response</td>
-							<td>Status</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="sb in shblock" style="text-align:center">
-							<th>{$sb.name$}</th>
-							<th>{$sb.action$}</th>
-							<th>{$sb.url$}</th>
-							<th>{$sb.response$}</th>
-							<th>{$sb.status_field$}</th>
-						</tr>
-					</tbody>
-				</table>
-			</div>
 		</div>
 	</div>
-	<script>
-		var toolbox = '<xml>';
-		toolbox +=
-			'<block type="22">' +
-			'<value name="name">' +
-			'<block type="text">' +
-			'<field name="TEXT"/>' +
-			'</block>' +
-			'</value>' +
-			'<value name="url">' +
-			'<block type="text">' +
-			'<field name="TEXT"/>' +
-			'</block>' +
-			'</value>' +
-			'</block>';
-
-		toolbox += '</xml>';
-		/* toolbox +=
-			'<block type="new_webhook">' +
-			'<field name="name">Nombre</field>' +
-			'<field name="url">URL</field>' +
-			'<value name="name">' +
-			'<block type="text">' +
-			'<field name="TEXT" />' +
-			'</block>' +
-			'</value>' +
-			'<value name="url">' +
-			'<block type="text">' +
-			'<field name="TEXT" />' +
-			'</block>' +
-			'</value>' +
-			'<next>' +
-			'<block type="create">' +
-			'<field name="Create">Crear</field>' +
-			'</block>' +
-			'</next>' +
-			'</block>' +
- */
-		/* '<block type="create">' +
-		'<field name="Create">Crear</field>' +
-		'</block>' + */
-
-		/* 			'<block type="update">' +
-					'<field name="Update">Actualizar</field>' +
-					'</block>' +
-
-					'<block type="delete">' +
-					'<field name="Delete">Eliminar</field>' +
-					'</block>'; */
-
-	</script>
 </div>
 
 {% endblock %}
