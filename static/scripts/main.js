@@ -10,6 +10,9 @@ Acme.config(['$httpProvider', '$interpolateProvider',
 
 Acme.controller('AcmeController', function ($scope, $http) {
 
+  $scope.data = [];
+  $scope.workspace = null;
+
   // Consultar los registros de Wenhooks al iniciar la página
   var getBlocks = function () {
     $http({
@@ -27,6 +30,7 @@ Acme.controller('AcmeController', function ($scope, $http) {
   getBlocks(); // Muestra los registros en webhooks
 
   var mainBlockly = function (arg) {
+    $scope.data = arg;
     arg.forEach(function (element) {
       Blockly.Blocks[element.id] = {
         init: function () {
@@ -102,7 +106,7 @@ Acme.controller('AcmeController', function ($scope, $http) {
         '</block>';
     });
     box += '</xml>';
-    Blockly.inject('blocklyDiv', { toolbox: box });
+    workspace = Blockly.inject('blocklyDiv', { toolbox: box });
   }
 
   // Traer data de los bloques en javascript hacia angularjs
@@ -118,6 +122,7 @@ Acme.controller('AcmeController', function ($scope, $http) {
       swal("ALERTA", "Debe agregar un bloque, llenar todos los campos y agregar una etiqueta.", "warning");
     } else {
       swal("¡Éxito!", "Se ha completado la acción.", "success");
+
       $http({
         method: 'POST',
         url: 'webhooks/',
@@ -128,7 +133,19 @@ Acme.controller('AcmeController', function ($scope, $http) {
           response: 200,
           status_field: true
         }
-      }).then(getBlocks());
+      }).then(
+        location.reload()
+        /* function () {
+        //getBlocks();
+        $scope.data.push({
+          name: $scope.name,
+          action: $scope.action,
+          url: $scope.url,
+          response: 200,
+          status_field: true
+        });
+        mainBlockly($scope.data);
+      } */);
     }
   }
 });
